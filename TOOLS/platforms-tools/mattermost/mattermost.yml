@@ -1,30 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mattermost
-  namespace: argocd   
+  name: mattermost    ##The name of the ArgoCD Application object (how ArgoCD identifies it).
+  namespace: argocd   #This resource will live in the argocd namespace (where ArgoCD runs)
   labels:
-    type: mattermost
+    type: mattermost   #Key/value pairs for tagging; here, type: mattermost helps classify or select this app.
 spec:
-  project: plateng
+  project: plateng     # argcd project 
   sources:
-    - repoURL: 'https://git.edusuc.net/WEBFORX/helm-charts.git'
-      targetRevision: HEAD
-      ref: values
-    - repoURL: 'https://helm.mattermost.com'
-      chart: mattermost-team-edition
-      targetRevision: "6.6.84"
+    - repoURL: 'https://git.edusuc.net/WEBFORX/helm-charts.git'   # Points to your Git repository (helm-charts.git) that contains custom values files.
+      targetRevision: HEAD                                        # Uses the default branch (e.g. main or develop) of that repo.
+      ref: values                                                 # A reference name so this repo can be called later (e.g., $values/...).
+
+    - repoURL: 'https://helm.mattermost.com'                      # The Helm chart name inside that repo   
+      chart: mattermost-team-edition                              # the chart  version to deploy
+      targetRevision: "6.6.84"                                    # Tells ArgoCD you’re deploying this source using Helm.
       helm:
-        releaseName: mattermost
-        valueFiles:
-          - $values/CHARTS/mattermost/dev-values.yaml
+        releaseName: mattermost     #The Helm release name
+        valueFiles:     #Extra override values files.
+          - $values/CHARTS/mattermost/dev-values.yaml   # Pulls the file from the other repo defined above line 12
   destination:
-    namespace: mattermost
-    name: 'in-cluster'
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    namespace: mattermost   # ArgoCD will deploy resources in this namespace
+    name: 'in-cluster'      # The cluster name. in-cluster means the same cluster where ArgoCD itself is running.
+  syncPolicy:              # Controls how ArgoCD syncs this application.
+    automated:           #Enables auto-sync (no manual clicks needed).
+      prune: true       # Remove resources in the cluster that no longer exist in Git.
+      selfHeal: true     #If resources drift (someone changes them manually), ArgoCD will reset them to match Git.
     syncOptions:
-      - CreateNamespace=true
-      - ServerSideApply=true
+      - CreateNamespace=true #If the namespace doesn’t exist, ArgoCD creates it automatically.
+      - ServerSideApply=true  # Uses Kubernetes server-side apply instead of client-side, better for CRDs and large manifests.
