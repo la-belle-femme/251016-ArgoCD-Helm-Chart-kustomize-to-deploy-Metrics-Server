@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mattermost
+  namespace: argocd   
+  labels:
+    type: mattermost
+spec:
+  project: plateng
+  sources:
+    - repoURL: 'https://git.edusuc.net/WEBFORX/helm-charts.git'
+      targetRevision: HEAD
+      ref: values
+    - repoURL: 'https://helm.mattermost.com'
+      chart: mattermost-team-edition
+      targetRevision: "6.6.84"
+      helm:
+        releaseName: mattermost
+        valueFiles:
+          - $values/CHARTS/mattermost/dev-values.yaml
+  destination:
+    namespace: mattermost
+    name: 'in-cluster'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
