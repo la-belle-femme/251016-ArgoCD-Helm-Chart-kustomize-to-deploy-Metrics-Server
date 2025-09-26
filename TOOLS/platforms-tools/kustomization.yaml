@@ -12,3 +12,4 @@ resources:
   - traefik
   - goldilocks
   - loki
+  - mattermost
