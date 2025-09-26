@@ -20,7 +20,7 @@ spec:
         valueFiles:     #Extra override values files.
           - $values/CHARTS/mattermost/dev-values.yaml   # Pulls the file from the other repo defined above line 12
   destination:
-    namespace: mattermost   # ArgoCD will deploy resources in this namespace
+    namespace: mattermost      # ArgoCD will deploy resources in this namespace
     name: 'in-cluster'      # The cluster name. in-cluster means the same cluster where ArgoCD itself is running.
   syncPolicy:              # Controls how ArgoCD syncs this application.
     automated:           #Enables auto-sync (no manual clicks needed).
