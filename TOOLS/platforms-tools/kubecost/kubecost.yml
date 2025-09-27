@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubecost   
+  namespace: argocd
+  labels:
+    type: kubecost 
+spec:
+  project: default 
+  sources:
+    - repoURL: 'git@gitlab.com:connect2465239/plateng/helm-charts.git'
+      targetRevision: develop                                    
+      ref: values                                                
+    - repoURL: 'https://kubecost.github.io/cost-analyzer/'       
+      chart: kubecost                              
+      targetRevision: "2.8.3"                      
+      helm:
+        releaseName: kubecost  
+        valueFiles:     
+          - $values/CHARTS/kubecost/dev-values.yaml  
+  destination:
+    namespace: kubecost 
+    name: 'in-cluster'  
+  syncPolicy:           
+    automated:          
+      prune: true       
+      selfHeal: true    
+    syncOptions:
+      - CreateNamespace=true 
+      - ServerSideApply=true 
