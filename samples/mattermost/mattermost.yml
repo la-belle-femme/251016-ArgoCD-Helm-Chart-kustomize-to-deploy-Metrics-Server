@@ -6,13 +6,13 @@ metadata:
   labels:
     type: mattermost   #Key/value pairs for tagging; here, type: mattermost helps classify or select this app.
 spec:
-  project: plateng     # argcd project 
+  project: default    # argcd project
   sources:
-    - repoURL: 'https://git.edusuc.net/WEBFORX/helm-charts.git'   # Points to your Git repository (helm-charts.git) that contains custom values files.
-      targetRevision: HEAD                                        # Uses the default branch (e.g. main or develop) of that repo.
+    - repoURL: 'git@gitlab.com:connect2465239/plateng/helm-charts.git'   # Points to your Git repository (helm-charts.git) that contains custom values files.
+      targetRevision: develop                                        # Uses the default branch (e.g. main or develop) of that repo.
       ref: values                                                 # A reference name so this repo can be called later (e.g., $values/...).
 
-    - repoURL: 'https://helm.mattermost.com'                      # The Helm chart name inside that repo   
+    - repoURL: 'https://helm.mattermost.com'                      # The Helm chart name inside that repo
       chart: mattermost-team-edition                              # the chart  version to deploy
       targetRevision: "6.6.84"                                    # Tells ArgoCD you’re deploying this source using Helm.
       helm:
