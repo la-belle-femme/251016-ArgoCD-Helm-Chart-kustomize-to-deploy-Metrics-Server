@@ -13,3 +13,4 @@ resources:
   - goldilocks
   - loki
   - mattermost
+  - sonarqube
