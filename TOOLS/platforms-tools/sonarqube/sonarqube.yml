@@ -13,9 +13,9 @@ spec:
       targetRevision: develop                   
       ref: values                                        
 
-    - repoURL: 'https://SonarSource.github.io/helm-chart-sonarqube'                 
+    - repoURL: 'https://charts.bitnami.com/bitnami'                 
       chart: sonarqube                      
-      targetRevision: "2025.5.0"                            
+      targetRevision: "8.1.17"                            
       helm:
         releaseName: sonarqube     
         valueFiles:   
