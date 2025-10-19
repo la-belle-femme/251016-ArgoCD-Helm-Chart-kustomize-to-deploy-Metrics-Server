@@ -7,10 +7,10 @@ metadata:
     type: monitoring
     app: metrics-server
 spec:
-  project: platforms-tools
+  project: default
   sources:
-    - repoURL: 'git@gitlab.com:connect2465239/plateng/helm-charts.git'
-      targetRevision: develop
+    - repoURL: 'https://github.com/la-belle-femme/251017-helm-charts.git'
+      targetRevision: main
       ref: values
     - repoURL: 'https://kubernetes-sigs.github.io/metrics-server/'
       chart: metrics-server
